@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { format } from 'date-fns';
+
+interface Props {
+    title: string;
+    description: string;
+    pubDate: string;
+    heroImage?: string;
+    heroImageAlt?: string;
+}
+
+const { title, description, pubDate, heroImage, heroImageAlt } = Astro.props as Props;
+---
+
+<Layout title={title} description={description}>
+    <article class="prose lg:prose-xl mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-4 text-gray-900">{title}</h1>
+        <p class="text-sm text-gray-500">
+            Published: <time datetime={new Date(pubDate).toISOString()}>{format(new Date(pubDate), 'MMMM d, yyyy')}</time>
+        </p>
+        <p class="text-gray-700 mb-6">{description}</p>
+
+        {heroImage &&
+            <img src={heroImage} alt={heroImageAlt} class="rounded-lg mb-6" />
+        }
+
+        <slot />
+    </article>
+</Layout>
